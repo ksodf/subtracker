@@ -53,10 +53,10 @@ export default function Dashboard() {
   }, null);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       <div className="flex items-center justify-end gap-3 flex-wrap">
         <select
-          className="border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
           value={currency}
           onChange={e => setCurrency(e.target.value)}
         >
@@ -71,7 +71,7 @@ export default function Dashboard() {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
         <StatCard
           label="Monthly Total"
           value={formatMoney(summary?.monthlyTotal, currency)}
@@ -100,7 +100,7 @@ export default function Dashboard() {
       </div>
 
       {/* Chart + upcoming bills */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
         <SpendingChart breakdown={summary?.categoryBreakdown ?? {}} currency={currency} />
         <UpcomingBills bills={upcomingBills} currency={currency} />
       </div>
@@ -110,9 +110,9 @@ export default function Dashboard() {
 
 function StatCard({ label, value, hint, bg, text }) {
   return (
-    <div className={`rounded-2xl p-5 ${bg}`}>
+    <div className={`rounded-2xl p-4 sm:p-5 ${bg} dark:bg-gray-900 dark:border dark:border-gray-800`}>
       <p className={`text-xs font-semibold uppercase tracking-wider opacity-60 ${text}`}>{label}</p>
-      <p className={`text-2xl font-bold mt-1 break-words ${text}`}>{value}</p>
+      <p className={`text-xl font-bold mt-1 break-words sm:text-2xl ${text}`}>{value}</p>
       {hint && <p className={`text-xs mt-1 opacity-70 ${text}`}>{hint}</p>}
     </div>
   );

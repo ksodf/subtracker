@@ -60,17 +60,17 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <AppNav />
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
+      <main className="max-w-5xl mx-auto px-4 py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] md:py-8 md:pb-8">
+        <div className="flex items-center justify-between gap-3 mb-5 flex-wrap sm:mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">Reports</h2>
-            <p className="text-sm text-gray-500 mt-1">Export subscription spending for coursework-ready analysis.</p>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 sm:text-2xl">Reports</h2>
+            <p className="text-sm text-gray-500 mt-1 dark:text-gray-400">Export subscription spending reports.</p>
           </div>
           <select
-            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             value={currency}
             onChange={e => setCurrency(e.target.value)}
           >
@@ -109,9 +109,9 @@ export default function ReportsPage() {
               />
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm p-6">
+            <div className="bg-white rounded-2xl shadow-sm p-4 dark:bg-gray-900 dark:shadow-none dark:border dark:border-gray-800 sm:p-6">
               <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
-                <h3 className="text-base font-semibold text-gray-700">Export Report</h3>
+                <h3 className="text-base font-semibold text-gray-700 dark:text-gray-100">Export Report</h3>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleExport('csv')}
@@ -123,7 +123,7 @@ export default function ReportsPage() {
                   <button
                     onClick={() => handleExport('pdf')}
                     disabled={Boolean(exporting)}
-                    className="text-sm border rounded-lg px-3 py-1.5 text-gray-600 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                    className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 text-gray-600 hover:bg-gray-50 disabled:opacity-50 transition-colors dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
                   >
                     {exporting === 'pdf' ? 'Exporting…' : 'Download PDF'}
                   </button>
@@ -133,7 +133,7 @@ export default function ReportsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-xs uppercase tracking-wider text-gray-400 border-b">
+                    <tr className="text-left text-xs uppercase tracking-wider text-gray-400 border-b border-gray-200 dark:text-gray-500 dark:border-gray-800">
                       <th className="py-2 pr-3">Name</th>
                       <th className="py-2 pr-3">Category</th>
                       <th className="py-2 pr-3">Original</th>
@@ -143,14 +143,14 @@ export default function ReportsPage() {
                   </thead>
                   <tbody>
                     {data.subscriptions.map(sub => (
-                      <tr key={sub.id} className="border-b last:border-0">
-                        <td className="py-2 pr-3 font-medium text-gray-800">{sub.name}</td>
-                        <td className="py-2 pr-3 text-gray-500">{sub.category}</td>
-                        <td className="py-2 pr-3 text-gray-500">{formatMoney(sub.price, sub.currency)}</td>
-                        <td className="py-2 pr-3 text-gray-700 font-semibold">
+                      <tr key={sub.id} className="border-b border-gray-100 last:border-0 dark:border-gray-800">
+                        <td className="py-2 pr-3 font-medium text-gray-800 dark:text-gray-100">{sub.name}</td>
+                        <td className="py-2 pr-3 text-gray-500 dark:text-gray-400">{sub.category}</td>
+                        <td className="py-2 pr-3 text-gray-500 dark:text-gray-400">{formatMoney(sub.price, sub.currency)}</td>
+                        <td className="py-2 pr-3 text-gray-700 font-semibold dark:text-gray-200">
                           {formatMoney(sub.monthly_display_price, currency)}
                         </td>
-                        <td className="py-2 pr-3 text-gray-500">{sub.status}</td>
+                        <td className="py-2 pr-3 text-gray-500 dark:text-gray-400">{sub.status}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -166,9 +166,9 @@ export default function ReportsPage() {
 
 function ReportCard({ label, value, bg, text }) {
   return (
-    <div className={`rounded-2xl p-5 ${bg}`}>
+    <div className={`rounded-2xl p-4 sm:p-5 ${bg} dark:bg-gray-900 dark:border dark:border-gray-800`}>
       <p className={`text-xs font-semibold uppercase tracking-wider opacity-60 ${text}`}>{label}</p>
-      <p className={`text-2xl font-bold mt-1 ${text}`}>{value}</p>
+      <p className={`text-xl font-bold mt-1 sm:text-2xl ${text}`}>{value}</p>
     </div>
   );
 }

@@ -45,12 +45,12 @@ export default function SubscriptionListPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <AppNav />
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between gap-3 mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Subscriptions</h2>
+      <main className="max-w-5xl mx-auto px-4 py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] md:py-8 md:pb-8">
+        <div className="flex items-center justify-between gap-3 mb-5 sm:mb-6">
+          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 sm:text-2xl">Subscriptions</h2>
           <Link
             to="/subscriptions/new"
             className="text-sm bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition-colors"
@@ -70,7 +70,7 @@ export default function SubscriptionListPage() {
         )}
 
         {!loading && !error && (
-          <div className="bg-white rounded-2xl shadow-sm p-6">
+          <div className="bg-white rounded-2xl shadow-sm p-4 dark:bg-gray-900 dark:shadow-none dark:border dark:border-gray-800 sm:p-6">
             <SubscriptionList
               subscriptions={activeSubscriptions}
               onEdit={sub => navigate(`/subscriptions/${sub.id}/edit`)}

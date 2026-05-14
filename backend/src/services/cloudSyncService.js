@@ -12,18 +12,13 @@ async function getRemoteCount(userId) {
 
 async function getStatus(userId) {
   try {
-    const [userDoc, remoteCount] = await Promise.all([
-      db.collection('users').doc(String(userId)).get(),
-      getRemoteCount(userId),
-    ]);
-    const user = userDoc.exists ? userDoc.data() : {};
+    const remoteCount = await getRemoteCount(userId);
 
     return {
       configured: true,
       provider: PROVIDER,
       mode: 'Primary database',
       checkedAt: new Date().toISOString(),
-      lastSyncedAt: user.last_synced_at ?? null,
       remoteCount,
     };
   } catch (err) {
@@ -32,27 +27,6 @@ async function getStatus(userId) {
   }
 }
 
-async function markSynced(userId, count) {
-  try {
-    const syncedAt = new Date().toISOString();
-    await db.collection('users').doc(String(userId)).set({
-      last_synced_at: syncedAt,
-      sync_provider: PROVIDER,
-      remote_count: count,
-    }, { merge: true });
-
-    return {
-      provider: PROVIDER,
-      syncedAt,
-      count,
-    };
-  } catch (err) {
-    console.error('Firestore sync markSynced:', err);
-    throw new Error('Firestore sync update failed');
-  }
-}
-
 module.exports = {
   getStatus,
-  markSynced,
 };

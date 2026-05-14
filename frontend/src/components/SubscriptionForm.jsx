@@ -92,8 +92,8 @@ export default function SubscriptionForm({ initial, onSave, onClose, asModal = t
   };
 
   const content = (
-    <div className={`bg-white rounded-2xl p-6 w-full ${asModal ? 'shadow-xl max-w-md' : 'shadow-sm max-w-2xl'}`}>
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">
+    <div className={`bg-white rounded-2xl p-4 w-full dark:bg-gray-900 dark:border dark:border-gray-800 sm:p-6 ${asModal ? 'shadow-xl max-w-md dark:shadow-none' : 'shadow-sm max-w-2xl dark:shadow-none'}`}>
+      <h2 className="text-lg font-semibold text-gray-800 mb-4 dark:text-gray-100">
         {initial?.id ? 'Edit Subscription' : 'New Subscription'}
       </h2>
 
@@ -104,18 +104,18 @@ export default function SubscriptionForm({ initial, onSave, onClose, asModal = t
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="sm:col-span-2">
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Name</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Name</label>
             <input
               type="text" placeholder="e.g. Netflix" required
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.name} onChange={e => set('name', e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Category</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Category</label>
             <select
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.category} onChange={e => set('category', e.target.value)}
             >
               {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -123,18 +123,18 @@ export default function SubscriptionForm({ initial, onSave, onClose, asModal = t
           </div>
 
           <div>
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Price</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Price</label>
             <input
               type="number" placeholder="0.00" required min="0.01" step="0.01"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.price} onChange={e => set('price', e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Currency</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Currency</label>
             <select
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.currency} onChange={e => set('currency', e.target.value)}
             >
               {SUPPORTED_CURRENCIES.map(code => <option key={code} value={code}>{code}</option>)}
@@ -142,9 +142,9 @@ export default function SubscriptionForm({ initial, onSave, onClose, asModal = t
           </div>
 
           <div>
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Billing Cycle</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Billing Cycle</label>
             <select
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.billing_cycle} onChange={e => set('billing_cycle', e.target.value)}
             >
               {BILLING_CYCLES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -152,36 +152,36 @@ export default function SubscriptionForm({ initial, onSave, onClose, asModal = t
           </div>
 
           <div>
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Start Date</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Start Date</label>
             <input
               type="date"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.start_date} onChange={e => set('start_date', e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Next Billing Date</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Next Billing Date</label>
             <input
               type="date" required
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.billing_date} onChange={e => set('billing_date', e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Payment Method</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Payment Method</label>
             <input
               type="text" placeholder="e.g. Visa ending 1234"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.payment_method} onChange={e => set('payment_method', e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Status</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Status</label>
             <select
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.status} onChange={e => set('status', e.target.value)}
             >
               {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -189,11 +189,11 @@ export default function SubscriptionForm({ initial, onSave, onClose, asModal = t
           </div>
 
           <div className="sm:col-span-2">
-            <label className="text-xs font-medium text-gray-600 mb-1 block">Notes</label>
+            <label className="text-xs font-medium text-gray-600 mb-1 block dark:text-gray-300">Notes</label>
             <textarea
               rows={3}
               placeholder="Optional notes"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={form.notes} onChange={e => set('notes', e.target.value)}
             />
           </div>
@@ -208,7 +208,7 @@ export default function SubscriptionForm({ initial, onSave, onClose, asModal = t
           </button>
           <button
             type="button" onClick={onClose}
-            className="flex-1 border rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            className="flex-1 border border-gray-200 rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50 transition-colors dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             {asModal ? 'Cancel' : 'Back'}
           </button>
@@ -220,7 +220,7 @@ export default function SubscriptionForm({ initial, onSave, onClose, asModal = t
   if (!asModal) return content;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4 dark:bg-black/60">
       {content}
     </div>
   );

@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+*.err
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -64,6 +65,17 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# Local machine files
+.DS_Store
+
+# Local database leftovers
+*.db
+*.sqlite
+*.sqlite3
+
+# Old root build output. Firebase Hosting uses frontend/dist.
+/dist/
 
 # dataconnect generated files
 .dataconnect

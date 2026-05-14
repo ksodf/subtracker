@@ -18,7 +18,7 @@ export default function SpendingChart({ breakdown, currency = 'USD' }) {
 
   if (data.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow-sm p-6 flex flex-col items-center justify-center h-64 text-gray-400">
+      <div className="bg-white rounded-2xl shadow-sm p-4 flex flex-col items-center justify-center h-56 text-gray-400 dark:bg-gray-900 dark:text-gray-500 dark:shadow-none dark:border dark:border-gray-800 sm:h-64 sm:p-6">
         <p className="text-sm">No active subscriptions yet.</p>
         <p className="text-xs mt-1">Add one to see your spending breakdown.</p>
       </div>
@@ -26,8 +26,8 @@ export default function SpendingChart({ breakdown, currency = 'USD' }) {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-6">
-      <h2 className="text-base font-semibold text-gray-700 mb-4">Spending by Category</h2>
+    <div className="bg-white rounded-2xl shadow-sm p-4 dark:bg-gray-900 dark:shadow-none dark:border dark:border-gray-800 sm:p-6">
+      <h2 className="text-base font-semibold text-gray-700 mb-4 dark:text-gray-100">Spending by Category</h2>
       <ResponsiveContainer width="100%" height={240}>
         <PieChart>
           <Pie

@@ -62,9 +62,3 @@ export const reportApi = {
     responseType: 'blob',
   }),
 };
-
-export const syncApi = {
-  status: () => api.get('/sync/status'),
-  push: () => api.post('/sync/push'),
-  pull: () => api.post('/sync/pull'),
-};

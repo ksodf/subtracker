@@ -10,7 +10,7 @@ From the project root:
 
 ```bash
 cd frontend
-cp .env.production.example .env.production
+touch .env.production
 ```
 
 Edit `frontend/.env.production`:
@@ -49,4 +49,4 @@ For local development, the frontend can keep using Vite's proxy and
 If `VITE_API_BASE_URL` is missing in the production build, the frontend calls
 `/api/auth/login` on the Firebase Hosting domain. Firebase Hosting does not run
 the Express API, so that request returns the hosted React app instead of JSON.
-The app now detects that case and shows a deployment configuration error.
+The app detects that case and shows a deployment configuration error.

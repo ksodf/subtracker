@@ -49,15 +49,15 @@ export default function TransactionFormPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <AppNav />
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between gap-3 mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">
+      <main className="max-w-5xl mx-auto px-4 py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] md:py-8 md:pb-8">
+        <div className="flex items-center justify-between gap-3 mb-5 sm:mb-6">
+          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 sm:text-2xl">
             {isEditing ? 'Edit Subscription' : 'Add Subscription'}
           </h2>
-          <Link to="/subscriptions" className="text-sm text-blue-600 hover:underline font-medium">
+          <Link to="/subscriptions" className="text-sm text-blue-600 hover:underline font-medium dark:text-blue-300">
             Back to subscriptions
           </Link>
         </div>
