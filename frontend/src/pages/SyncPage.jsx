@@ -10,55 +10,29 @@ const formatDateTime = (value) => {
 export default function SyncPage() {
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [busy, setBusy] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const fetchStatus = useCallback(async () => {
+  const fetchStatus = useCallback(async ({ quiet = false } = {}) => {
+    if (quiet) setRefreshing(true);
     try {
       const { data } = await syncApi.status();
-      setStatus(data);
+      setStatus({ ...data, checkedAt: data.checkedAt ?? new Date().toISOString() });
       setError('');
+      if (quiet) setMessage('Firestore status refreshed.');
     } catch {
       setError('Failed to load sync status. Is the server running?');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, []);
 
   useEffect(() => { fetchStatus(); }, [fetchStatus]);
 
-  const handlePush = async () => {
-    setBusy('push');
-    setMessage('');
-    setError('');
-    try {
-      const { data } = await syncApi.push();
-      setMessage(`${data.count} subscriptions synced to ${data.provider}.`);
-      fetchStatus();
-    } catch {
-      setError('Failed to push cloud snapshot.');
-    } finally {
-      setBusy('');
-    }
-  };
-
-  const handlePull = async () => {
-    if (!window.confirm('Restore from the cloud snapshot? This replaces your local subscriptions.')) return;
-
-    setBusy('pull');
-    setMessage('');
-    setError('');
-    try {
-      const { data } = await syncApi.pull();
-      setMessage(`${data.count} subscriptions restored from ${data.provider}.`);
-      fetchStatus();
-    } catch (err) {
-      setError(err.response?.data?.error || 'Failed to pull cloud snapshot.');
-    } finally {
-      setBusy('');
-    }
-  };
+  const isFirestore = /firestore/i.test(status?.provider ?? '');
+  const mode = status?.mode ?? (isFirestore ? 'Primary database' : 'Legacy sync adapter');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -66,12 +40,17 @@ export default function SyncPage() {
 
       <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Cloud Sync</h2>
-          <p className="text-sm text-gray-500 mt-1">Back up and restore your subscription database snapshot.</p>
+          <h2 className="text-2xl font-bold text-gray-800">Firestore Database</h2>
+          <p className="text-sm text-gray-500 mt-1">Subscriptions are stored directly in Firestore.</p>
         </div>
 
         {error && (
           <div className="bg-red-50 text-red-600 rounded-xl p-4 text-sm mb-6">{error}</div>
+        )}
+        {!loading && status && !isFirestore && (
+          <div className="bg-amber-50 text-amber-700 rounded-xl p-4 text-sm mb-6">
+            This API is still reporting a legacy sync adapter. Restart or redeploy the backend so the sync status route uses the Firestore service.
+          </div>
         )}
         {message && (
           <div className="bg-green-50 text-green-700 rounded-xl p-4 text-sm mb-6">{message}</div>
@@ -82,27 +61,25 @@ export default function SyncPage() {
             Loading…
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-              <SyncStat label="Provider" value={status?.provider ?? 'Not configured'} />
-              <SyncStat label="Last Sync" value={formatDateTime(status?.lastSyncedAt)} />
-              <SyncStat label="Cloud Items" value={status?.remoteCount ?? 0} />
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <SyncStat label="Database" value={status?.provider ?? 'Not configured'} />
+              <SyncStat label="Mode" value={mode} />
+              <SyncStat label="Documents" value={status?.remoteCount ?? 0} />
+              <SyncStat label="Last Verified" value={formatDateTime(status?.checkedAt)} />
             </div>
 
             <div className="flex items-center gap-3 flex-wrap">
               <button
-                onClick={handlePush}
-                disabled={Boolean(busy)}
+                onClick={() => {
+                  setMessage('');
+                  setError('');
+                  fetchStatus({ quiet: true });
+                }}
+                disabled={refreshing}
                 className="text-sm bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
               >
-                {busy === 'push' ? 'Syncing…' : 'Push to Cloud'}
-              </button>
-              <button
-                onClick={handlePull}
-                disabled={Boolean(busy)}
-                className="text-sm border rounded-lg px-3 py-1.5 text-gray-600 hover:bg-gray-50 disabled:opacity-50 transition-colors"
-              >
-                {busy === 'pull' ? 'Restoring…' : 'Pull from Cloud'}
+                {refreshing ? 'Refreshing…' : 'Refresh Status'}
               </button>
             </div>
           </div>

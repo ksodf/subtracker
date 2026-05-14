@@ -1,49 +1,45 @@
 const Subscription = require('../models/Subscription');
-const { getStatus, readSnapshot, writeSnapshot } = require('../services/cloudSyncService');
+const { getStatus, markSynced } = require('../services/cloudSyncService');
+const { sendServerError } = require('../utils/errorUtils');
 
 exports.status = async (req, res) => {
   try {
-    res.json(getStatus(req.user.id));
+    res.json(await getStatus(req.user.id));
   } catch (err) {
     console.error('syncStatus:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };
 
 exports.push = async (req, res) => {
   try {
     const subscriptions = await Subscription.findAllByUser(req.user.id);
-    const snapshot = writeSnapshot(req.user.id, subscriptions);
+    const sync = await markSynced(req.user.id, subscriptions.length);
     res.json({
-      message: 'Cloud snapshot updated',
-      syncedAt: snapshot.syncedAt,
-      count: snapshot.subscriptions.length,
-      provider: snapshot.provider,
+      message: 'Firestore is already the cloud source of truth',
+      syncedAt: sync.syncedAt,
+      count: sync.count,
+      provider: sync.provider,
     });
   } catch (err) {
     console.error('syncPush:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };
 
 exports.pull = async (req, res) => {
   try {
-    const snapshot = readSnapshot(req.user.id);
-    if (!snapshot) return res.status(404).json({ error: 'No cloud snapshot found' });
-
-    const subscriptions = await Subscription.replaceAllByUser(
-      req.user.id,
-      snapshot.subscriptions || []
-    );
+    const subscriptions = await Subscription.findAllByUser(req.user.id);
+    const sync = await markSynced(req.user.id, subscriptions.length);
 
     res.json({
-      message: 'Cloud snapshot restored',
-      syncedAt: snapshot.syncedAt,
+      message: 'Firestore data is already current',
+      syncedAt: sync.syncedAt,
       count: subscriptions.length,
-      provider: snapshot.provider,
+      provider: sync.provider,
     });
   } catch (err) {
     console.error('syncPull:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };

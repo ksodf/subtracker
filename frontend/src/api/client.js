@@ -5,9 +5,15 @@ const api = axios.create({
   headers: { Accept: 'application/json' },
 });
 
+export const AUTH_SESSION_EXPIRED_EVENT = 'subtracker:auth-session-expired';
+
+const isAuthRoute = (url = '') => /\/auth\/(login|register)$/.test(url);
+
 api.interceptors.request.use(config => {
-  const token = localStorage.getItem('token');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (!isAuthRoute(config.url)) {
+    const token = localStorage.getItem('token');
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
@@ -25,10 +31,10 @@ api.interceptors.response.use(
     return res;
   },
   err => {
-    if (err.response?.status === 401) {
+    if (err.response?.status === 401 && !isAuthRoute(err.config?.url)) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      window.dispatchEvent(new Event(AUTH_SESSION_EXPIRED_EVENT));
     }
     return Promise.reject(err);
   }

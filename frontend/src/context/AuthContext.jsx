@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useCallback } from 'react';
-import { authApi } from '../api/client';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { AUTH_SESSION_EXPIRED_EVENT, authApi } from '../api/client';
 
 const AuthContext = createContext(null);
 
@@ -39,6 +39,11 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('user');
     setUser(null);
   }, []);
+
+  useEffect(() => {
+    window.addEventListener(AUTH_SESSION_EXPIRED_EVENT, logout);
+    return () => window.removeEventListener(AUTH_SESSION_EXPIRED_EVENT, logout);
+  }, [logout]);
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>

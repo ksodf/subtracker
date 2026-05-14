@@ -36,7 +36,9 @@ Deploy the backend separately, then set these production environment variables:
 JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
 CLIENT_ORIGIN=https://subtracker-3b763.web.app,https://subtracker-3b763.firebaseapp.com
-CLOUD_SYNC_PROVIDER=Local JSON cloud adapter
+FIREBASE_PROJECT_ID=your-firebase-project-id
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-firebase-project-id.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY\n-----END PRIVATE KEY-----\n"
 ```
 
 For local development, the frontend can keep using Vite's proxy and

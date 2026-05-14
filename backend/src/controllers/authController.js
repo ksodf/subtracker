@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { sendServerError } = require('../utils/errorUtils');
 
 const signToken = (userId) =>
   jwt.sign({ id: userId }, process.env.JWT_SECRET, {
@@ -25,7 +26,7 @@ exports.register = async (req, res) => {
     res.status(201).json({ token, user: { id: user.id, email: user.email } });
   } catch (err) {
     console.error('register:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };
 
@@ -45,6 +46,6 @@ exports.login = async (req, res) => {
     res.json({ token, user: { id: user.id, email: user.email } });
   } catch (err) {
     console.error('login:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };

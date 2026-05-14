@@ -1,5 +1,6 @@
 const Subscription = require('../models/Subscription');
 const { getRatesFor, isSupportedCurrency, normalizeCurrency } = require('../utils/currencyUtils');
+const { sendServerError } = require('../utils/errorUtils');
 const { enrichSubscriptions, getSummary } = require('../utils/subscriptionUtils');
 
 const VALID_CATEGORIES = ['Entertainment', 'Health', 'Productivity', 'Education', 'Utilities', 'Other'];
@@ -73,7 +74,7 @@ exports.getAll = async (req, res) => {
     });
   } catch (err) {
     console.error('getAll:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };
 
@@ -86,7 +87,7 @@ exports.create = async (req, res) => {
     res.status(201).json(sub);
   } catch (err) {
     console.error('create:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };
 
@@ -103,7 +104,7 @@ exports.update = async (req, res) => {
     res.json(updated);
   } catch (err) {
     console.error('update:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };
 
@@ -115,6 +116,6 @@ exports.remove = async (req, res) => {
     res.status(204).send();
   } catch (err) {
     console.error('delete:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };

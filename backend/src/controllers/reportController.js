@@ -1,5 +1,6 @@
 const Subscription = require('../models/Subscription');
 const { normalizeCurrency } = require('../utils/currencyUtils');
+const { sendServerError } = require('../utils/errorUtils');
 const { enrichSubscriptions, getSummary } = require('../utils/subscriptionUtils');
 
 function escapeCsv(value) {
@@ -139,7 +140,7 @@ exports.downloadCsv = async (req, res) => {
     res.send(buildCsv(rows));
   } catch (err) {
     console.error('downloadCsv:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };
 
@@ -165,6 +166,6 @@ exports.downloadPdf = async (req, res) => {
     res.send(buildPdf(lines));
   } catch (err) {
     console.error('downloadPdf:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    sendServerError(res, err);
   }
 };

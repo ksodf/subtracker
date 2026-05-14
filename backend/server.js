@@ -7,7 +7,7 @@ const authRoutes = require('./src/routes/auth');
 const subscriptionRoutes = require('./src/routes/subscriptions');
 const reportRoutes = require('./src/routes/reports');
 const syncRoutes = require('./src/routes/sync');
-const { testConnection } = require('./src/config/db');
+const db = require('./src/config/firebase');
 
 const app = express();
 const allowedOrigins = (process.env.CLIENT_ORIGIN || '')
@@ -40,6 +40,11 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3001;
+
+async function testConnection() {
+  await db.collection('users').limit(1).get();
+  console.log(`Firestore ready — ${process.env.FIREBASE_PROJECT_ID}`);
+}
 
 testConnection()
   .then(() => app.listen(PORT, () => console.log(`SubTracker API on http://localhost:${PORT}`)))

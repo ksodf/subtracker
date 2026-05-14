@@ -30,7 +30,7 @@ export default function AppNav() {
               Reports
             </NavLink>
             <NavLink to="/sync" className={linkClass}>
-              Sync
+              Database
             </NavLink>
           </div>
         </div>
