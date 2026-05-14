@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "SubTracker",
+    "slug": "subtracker-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "subtracker",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "package": "com.subtracker.mobile"
+    }
+  }
+}
