@@ -17,6 +17,7 @@ The project is built with a React frontend, an Express API, and Firebase Firesto
 ## Tech Stack
 
 - Frontend: React, Vite, Tailwind CSS, Recharts
+- Mobile: Expo React Native with Expo Go
 - Backend: Node.js, Express
 - Database: Firebase Firestore
 - Auth: JWT with bcrypt password hashing
@@ -28,6 +29,7 @@ The project is built with a React frontend, an Express API, and Firebase Firesto
 subtracker/
   backend/        Express API, routes, controllers, Firestore models
   frontend/       React app
+  mobile/         Expo React Native mobile app
   firebase.json   Firebase Hosting config for the frontend build
 ```
 
@@ -70,6 +72,35 @@ npm run dev
 ```
 
 The React app runs at `http://localhost:5173`. During local development, Vite sends `/api` requests to `http://localhost:3001`.
+
+## Running The Mobile App
+
+The mobile app is in the `mobile/` folder. It is an Expo React Native app, so the easiest way to test it is with Expo Go on a phone.
+
+Install the mobile dependencies:
+
+```bash
+cd mobile
+npm install
+```
+
+Start Expo:
+
+```bash
+npx expo start
+```
+
+Then scan the QR code with Expo Go. The mobile app uses the deployed Render API by default:
+
+```text
+https://subtracker-ro14.onrender.com/api
+```
+
+If that API URL ever changes, update it in:
+
+```text
+mobile/src/config/api.js
+```
 
 ## Deployment Notes
 
